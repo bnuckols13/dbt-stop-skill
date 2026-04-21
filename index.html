@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOP &mdash; DBT Distress Tolerance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --text:       #1C1917;
+            --text-2:     #57534E;
+            --text-3:     #A8A29E;
+            --accent:     #1E40AF;
+            --accent-bg:  #EFF4FE;
+            --cool:       #A0522D;
+            --cool-bg:    #FAF0E6;
+            --border:     #E7E5E4;
+            --bg:         #FAFAF7;
+            --surface:    #FFFFFF;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body::before {
+            content: '';
+            display: block;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--cool) 100%);
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 4rem;
+        }
+
+        .header { margin-bottom: 2.5rem; }
+        .header-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            font-size: 1.05rem;
+            color: var(--text-2);
+            font-weight: 400;
+        }
+
+        .nav {
+            display: flex;
+            gap: 0.25rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 2.5rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .nav button {
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            padding: 0.75rem 1rem;
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-3);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .nav button:hover { color: var(--text-2); }
+        .nav button.active {
+            color: var(--accent);
+            font-weight: 600;
+            border-bottom-color: var(--accent);
+        }
+
+        .page { display: none; }
+        .page.active { display: block; animation: appear 0.25s ease; }
+        @keyframes appear { from { opacity: 0; } to { opacity: 1; } }
+
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-3);
+            margin-bottom: 0.5rem;
+        }
+        .section-label.warm { color: var(--accent); }
+        .section-label.cool { color: var(--cool); }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.01em;
+            margin-bottom: 0.75rem;
+        }
+        h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        .body-text {
+            font-size: 0.95rem;
+            color: var(--text-2);
+            line-height: 1.8;
+        }
+        .body-text + .body-text { margin-top: 0.75rem; }
+        .body-text strong { color: var(--text); font-weight: 600; }
+
+        .timing {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-3);
+            float: right;
+            margin-top: 0.2rem;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 2.5rem 0;
+        }
+
+        .callout {
+            border-left: 3px solid var(--border);
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+        }
+        .callout.warm { border-left-color: var(--accent); background: var(--accent-bg); }
+        .callout.cool { border-left-color: var(--cool); background: var(--cool-bg); }
+        .callout .callout-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-3);
+            margin-bottom: 0.4rem;
+        }
+        .callout.warm .callout-label { color: var(--accent); }
+        .callout.cool .callout-label { color: var(--cool); }
+        .callout p { font-size: 0.9rem; color: var(--text-2); line-height: 1.7; }
+        .callout p strong { color: var(--text); }
+
+        .steps { margin: 1.5rem 0; }
+        .step {
+            display: flex;
+            gap: 1rem;
+            align-items: baseline;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .step:last-child { border-bottom: none; }
+        .step-num {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-3);
+            flex-shrink: 0;
+            width: 1.5rem;
+            text-align: right;
+        }
+        .step-content { flex: 1; }
+        .step-q { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+        .step-hint { font-size: 0.82rem; color: var(--text-3); margin-top: 0.15rem; line-height: 1.6; }
+
+        .accordion { margin: 1.5rem 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+        .acc-item { border-bottom: 1px solid var(--border); }
+        .acc-item:last-child { border-bottom: none; }
+        .acc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            background: var(--surface);
+            transition: background 0.15s;
+            user-select: none;
+        }
+        .acc-header:hover { background: var(--bg); }
+        .acc-title { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+        .acc-icon { font-size: 1.1rem; color: var(--text-3); transition: transform 0.2s; font-weight: 300; line-height: 1; }
+        .acc-item.open .acc-icon { transform: rotate(45deg); }
+        .acc-body { display: none; padding: 0 1.25rem 1.25rem; background: var(--surface); }
+        .acc-item.open .acc-body { display: block; }
+        .acc-body p { font-size: 0.9rem; color: var(--text-2); line-height: 1.75; }
+        .acc-body p + p { margin-top: 0.75rem; }
+        .acc-body ul { list-style: none; margin-top: 0.5rem; }
+        .acc-body ul li {
+            font-size: 0.9rem;
+            color: var(--text-2);
+            line-height: 1.75;
+            padding-left: 1rem;
+            position: relative;
+        }
+        .acc-body ul li::before {
+            content: '\00B7';
+            position: absolute;
+            left: 0;
+            color: var(--text-3);
+        }
+        .acc-body .aside {
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--text-3);
+            padding-left: 1rem;
+            border-left: 2px solid var(--border);
+        }
+
+        .questions { margin: 1.5rem 0; }
+        .question { padding: 1rem 0; border-bottom: 1px solid var(--border); }
+        .question:last-child { border-bottom: none; }
+        .question-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); margin-bottom: 0.3rem; }
+        .question-text { font-size: 0.95rem; font-weight: 500; color: var(--text); line-height: 1.7; }
+        .question-note { font-size: 0.82rem; font-style: italic; color: var(--text-3); margin-top: 0.3rem; }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+        .option {
+            background: var(--surface);
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .option:hover { background: var(--bg); }
+        .option.selected { background: var(--accent-bg); }
+        .option-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.2rem;
+        }
+        .option-desc {
+            font-size: 0.8rem;
+            color: var(--text-3);
+            line-height: 1.5;
+        }
+
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+        .page-nav button {
+            background: none; border: none; font-family: inherit;
+            font-size: 0.9rem; font-weight: 500; color: var(--accent);
+            cursor: pointer; padding: 0.5rem 0; transition: opacity 0.15s;
+        }
+        .page-nav button:hover { opacity: 0.7; }
+        .page-nav .ghost { visibility: hidden; }
+
+        .footer {
+            margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+            text-align: center; font-size: 0.8rem; color: var(--text-3); line-height: 1.8;
+        }
+        .footer strong { color: var(--text-2); font-weight: 600; }
+
+        /* Letter grid */
+        .letter-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+        .letter-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.15s;
+        }
+        .letter-card:hover { border-color: var(--accent); }
+        .letter-card.active { border-color: var(--accent); }
+        .letter-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: var(--surface);
+        }
+        .letter-char {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent);
+            width: 2rem;
+            flex-shrink: 0;
+            text-align: center;
+        }
+        .letter-card.cool-card .letter-char { color: var(--cool); }
+        .letter-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .letter-brief {
+            font-size: 0.8rem;
+            color: var(--text-3);
+            margin-top: 0.1rem;
+        }
+        .letter-detail {
+            display: none;
+            padding: 1.25rem;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+        }
+        .letter-card.active .letter-detail { display: block; }
+        .letter-detail p { font-size: 0.9rem; color: var(--text-2); line-height: 1.75; }
+        .letter-detail p + p { margin-top: 0.75rem; }
+        .letter-detail .aside {
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--text-3);
+            padding-left: 1rem;
+            border-left: 2px solid var(--border);
+        }
+
+        /* Scenario cards */
+        .scenario-stack { margin: 1.5rem 0; }
+        .scenario-card {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 0.75rem;
+        }
+        .scenario-body {
+            padding: 1.5rem 1.5rem 1.25rem;
+            background: var(--surface);
+        }
+        .scenario-tag {
+            display: inline-block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            margin-bottom: 0.75rem;
+        }
+        .scenario-tag.abc { color: var(--accent); background: var(--accent-bg); }
+        .scenario-tag.please { color: var(--cool); background: var(--cool-bg); }
+        .scenario-text {
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.8;
+        }
+        .scenario-reveal {
+            display: none;
+            padding: 1.25rem;
+            border-top: 1px solid var(--border);
+            background: var(--bg);
+        }
+        .scenario-reveal.show { display: block; }
+        .scenario-reveal p { font-size: 0.9rem; color: var(--text-2); line-height: 1.75; }
+        .scenario-reveal p + p { margin-top: 0.75rem; }
+        .reveal-btn-row {
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+        .reveal-btn {
+            width: 100%;
+            padding: 0.9rem;
+            border: none;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--surface);
+            color: var(--text-3);
+            transition: background 0.15s, color 0.15s;
+        }
+        .reveal-btn:hover { background: var(--bg); color: var(--text-2); }
+        .reveal-btn.revealed { color: var(--accent); background: var(--accent-bg); cursor: default; }
+
+        @media (max-width: 600px) {
+            .container { padding: 2rem 1.25rem 3rem; }
+            h1 { font-size: 1.8rem; }
+            .options-grid { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header class="header">
+        <div class="header-label">DBT Skills &mdash; Adult Group</div>
+        <h1>STOP</h1>
+        <p class="subtitle">Sixty seconds between the urge and the behavior.</p>
+    </header>
+
+    <nav class="nav">
+        <button class="active" onclick="showPage(0, this)">Welcome</button>
+        <button onclick="showPage(1, this)">Why STOP</button>
+        <button onclick="showPage(2, this)">The four letters</button>
+        <button onclick="showPage(3, this)">Practice</button>
+        <button onclick="showPage(4, this)">Discussion</button>
+        <button onclick="showPage(5, this)">Closing</button>
+    </nav>
+
+    <!-- ======================== WELCOME ======================== -->
+    <div class="page active">
+        <div class="section-label warm">Welcome</div>
+        <h2><span class="timing">8 to 10 min</span>About today</h2>
+        <p class="body-text">STOP is the first skill in the distress tolerance module. It is a crisis survival skill, which means it is built for the moment an urge is pulling you toward a behavior that will make things worse. It is not problem solving. It is damage control bought one second at a time.</p>
+        <p class="body-text">In an eating disorder context, the urge might be to restrict the next meal, purge after eating, binge the rest of the night, check the mirror for the tenth time, or add an extra workout. STOP does not ask you to want recovery in that moment. It asks you to not move your body until the wave drops enough that you can choose.</p>
+
+        <div class="callout warm">
+            <div class="callout-label">Confidentiality</div>
+            <p>What's shared here stays here. Names, stories, details, all of it is protected. The only exception is safety.</p>
+        </div>
+
+        <div class="callout">
+            <p><strong>You can pass at any point.</strong> No explanation needed. If something doesn't fit right now, say "pass" and we move on.</p>
+        </div>
+
+        <hr class="divider">
+
+        <div class="section-label">Check-in</div>
+        <h2><span class="timing">10 to 12 min</span>Bridge questions</h2>
+        <p class="body-text">Share your name, then take these one at a time.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <div class="step-q">When you think about the last time you acted on an ED urge, what do you remember about the seconds right before?</div>
+                    <div class="step-hint">Looking for texture: the kitchen doorway, the phone in your hand, the mirror. Do you remember choosing, or do you remember finding yourself mid-behavior?</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <div class="step-q">What does it feel like in your body when an urge is loud and you try to not act on it?</div>
+                    <div class="step-hint">One word or one sensation is enough. Tight, hot, dead, static, buzzing, numb.</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <div class="step-q">If you could insert one second of pause between the urge and the behavior, where in your day would you want it?</div>
+                    <div class="step-hint">A specific moment, not a general time. After a meal, before the scale, at the door of the kitchen.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-nav">
+            <button class="ghost">&#8592; Back</button>
+            <button onclick="showPage(1, document.querySelectorAll('.nav button')[1])">Why STOP &#8594;</button>
+        </div>
+    </div>
+
+    <!-- ======================== WHY STOP ======================== -->
+    <div class="page">
+        <div class="section-label warm">Teaching</div>
+        <h2><span class="timing">12 to 15 min</span>What STOP is for</h2>
+        <p class="body-text">An ED urge fires in what Linehan calls emotion mind. The body starts moving before the thinking part of the brain catches up. By the time you notice you are walking toward the kitchen, opening the app, stepping on the scale, the decision has already been made somewhere underneath awareness.</p>
+        <p class="body-text">STOP is built to insert a gap into that sequence. The gap is not where the skill solves anything. The gap is where the skill makes solving possible.</p>
+
+        <div class="accordion">
+            <div class="acc-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="acc-title">Emotion mind, reasonable mind, wise mind</div>
+                    <div class="acc-icon">+</div>
+                </div>
+                <div class="acc-body">
+                    <p>Emotion mind is the state where feeling drives action. The urge is loud, the behavior feels inevitable, and reasoning comes in after the fact to justify what already happened.</p>
+                    <p>Reasonable mind is the state where logic drives action without regard for feeling. In eating disorder work, reasonable mind is often where the ED voice lives: calorie math, compensation plans, rules about earning food.</p>
+                    <p>Wise mind is the integration. It holds both the suffering and the reality that the behavior worsens the suffering. The P in STOP is where you consult wise mind, which is why you cannot skip from S straight to P.</p>
+                </div>
+            </div>
+            <div class="acc-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="acc-title">The shape of an urge</div>
+                    <div class="acc-icon">+</div>
+                </div>
+                <div class="acc-body">
+                    <p>Urges rise, peak, and fall. Research on urge surfing suggests most urges crest within 15 to 30 minutes if they are not fed and not fought.</p>
+                    <p>The problem is that at the peak, the urge lies about its own shape. It tells you it will last forever, that acting is the only way to make it stop, that this time is different. None of those claims survive the data.</p>
+                    <div class="aside">Tracking urge intensity at onset, at 5 minutes, and at 15 minutes on a diary card makes the wave visible. Over weeks, the shape becomes undeniable.</div>
+                </div>
+            </div>
+            <div class="acc-item">
+                <div class="acc-header" onclick="toggleAcc(this)">
+                    <div class="acc-title">Where STOP sits among the other skills</div>
+                    <div class="acc-icon">+</div>
+                </div>
+                <div class="acc-body">
+                    <p>STOP is the first-line interruption. It runs before every other distress tolerance skill.</p>
+                    <ul>
+                        <li>If arousal is too high for STOP to hold, TIP the body first, then come back to STOP.</li>
+                        <li>Once the gap is open, ACCEPTS or IMPROVE fills the time while the wave passes.</li>
+                        <li>Pros and Cons is the written backstop that gives wise mind something concrete to consult at P.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout cool">
+            <div class="callout-label">Clinical note</div>
+            <p>STOP is a crisis survival skill, not a cure. It buys the 60 seconds in which you do not make the situation worse. Everything else is built on top of that.</p>
+        </div>
+
+        <div class="page-nav">
+            <button onclick="showPage(0, document.querySelectorAll('.nav button')[0])">&#8592; Welcome</button>
+            <button onclick="showPage(2, document.querySelectorAll('.nav button')[2])">The four letters &#8594;</button>
+        </div>
+    </div>
+
+    <!-- ======================== THE FOUR LETTERS ======================== -->
+    <div class="page">
+        <div class="section-label warm">The skill</div>
+        <h2><span class="timing">15 to 18 min</span>STOP, letter by letter</h2>
+        <p class="body-text">Tap any letter to open. The header is the one-line teach. Examples below are drawn from the population in this room.</p>
+
+        <div class="letter-grid">
+            <div class="letter-card active" onclick="toggleLetter(this)">
+                <div class="letter-header">
+                    <div class="letter-char">S</div>
+                    <div>
+                        <div class="letter-name">Stop</div>
+                        <div class="letter-brief">Freeze the body before the body decides.</div>
+                    </div>
+                </div>
+                <div class="letter-detail">
+                    <p>The urge will try to move your body before your mind catches up. Stop means the literal, physical interruption of that momentum. Feet planted, hands still, mouth closed. You are not solving anything yet. You are refusing to let the behavior begin without you.</p>
+                    <p><strong>Looks like:</strong> the refrigerator door is halfway open and your hand is on it. Stop means you leave your hand where it is and do not open it further for ten seconds. Or: you are walking toward the bathroom after a meal. Stop means you sit down on the nearest chair, floor, or step before you arrive.</p>
+                    <div class="aside">Stop fails most often when it is treated as a thought instead of an action. Say the word out loud if you need to. The body has to hear it.</div>
+                </div>
+            </div>
+
+            <div class="letter-card cool-card" onclick="toggleLetter(this)">
+                <div class="letter-header">
+                    <div class="letter-char">T</div>
+                    <div>
+                        <div class="letter-name">Take a step back</div>
+                        <div class="letter-brief">Put distance between you and the trigger.</div>
+                    </div>
+                </div>
+                <div class="letter-detail">
+                    <p>ED urges collapse the space between cue and behavior until they feel like the same event. Taking a step back reopens that space. It can be physical (leave the kitchen, close the app, turn from the mirror) or internal (one full exhale, one count to four, one hand on the sternum). The step is small on purpose.</p>
+                    <p><strong>Looks like:</strong> you are scrolling through a body-checking loop on your phone. Take a step back means the phone goes face-down on the table and you move to a different chair. Or: you are standing on the scale. Take a step back means you step off, physically, before you read the number a second time.</p>
+                    <div class="aside">If you cannot physically leave the situation, one slow exhale counts as a step back. The point is to interrupt the momentum, not to travel.</div>
+                </div>
+            </div>
+
+            <div class="letter-card" onclick="toggleLetter(this)">
+                <div class="letter-header">
+                    <div class="letter-char">O</div>
+                    <div>
+                        <div class="letter-name">Observe</div>
+                        <div class="letter-brief">Watch the urge without feeding it or fighting it.</div>
+                    </div>
+                </div>
+                <div class="letter-detail">
+                    <p>Name what is actually happening. The sensation in the stomach, the tightness in the jaw, the thought on repeat, the emotion underneath the food-thought. You are not negotiating with the urge, justifying it, or trying to make it leave. You are witnessing it the way you would witness a wave. It rose, it is here, it will fall.</p>
+                    <p>Observing also means noticing the room. The chair you are sitting in, the sound of the heater, the color of the wall. Urges pretend the external world has disappeared. Observing proves otherwise.</p>
+                    <p><strong>Looks like:</strong> "tight throat, thought that I have already ruined today, hunger I do not trust, left foot is cold, the lamp is on." The urge is still there. You are also still there.</p>
+                    <div class="aside">For clients with alexithymia, the O step is often where the work lives. Slow it down. Borrow emotion words from the group if yours are not available.</div>
+                </div>
+            </div>
+
+            <div class="letter-card cool-card" onclick="toggleLetter(this)">
+                <div class="letter-header">
+                    <div class="letter-char">P</div>
+                    <div>
+                        <div class="letter-name">Proceed mindfully</div>
+                        <div class="letter-brief">Choose the next action from values, not from the urge.</div>
+                    </div>
+                </div>
+                <div class="letter-detail">
+                    <p>Proceed does not mean you feel better. It means you act in a direction that your recovery self, not your eating disorder, would recognize as yours. Sometimes proceeding mindfully is completing the meal as planned. Sometimes it is texting your dietitian. Sometimes it is staying on the couch for four more minutes until the wave drops.</p>
+                    <p><strong>Looks like:</strong> you finish the snack on your plan, at the pace on your plan, even though the urge to restrict the next meal is loud. You write the urge down to bring to individual session. Or: you leave the bathroom, go to the group chat, and send one sentence. "Urge is high, I am sitting with it." You stay seated for five minutes and track the wave on paper.</p>
+                    <div class="aside">The proceed is small enough to actually do and honest about the difficulty of doing it. Overshooting at P is how STOP fails on the last letter.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-nav">
+            <button onclick="showPage(1, document.querySelectorAll('.nav button')[1])">&#8592; Why STOP</button>
+            <button onclick="showPage(3, document.querySelectorAll('.nav button')[3])">Practice &#8594;</button>
+        </div>
+    </div>
+
+    <!-- ======================== PRACTICE ======================== -->
+    <div class="page">
+        <div class="section-label warm">Practice</div>
+        <h2><span class="timing">15 to 18 min</span>Where does STOP go?</h2>
+        <p class="body-text">Read each scenario. Before tapping to reveal, say out loud where each letter of STOP would land. The group can offer additions. The reveal is one possible answer, not the only one.</p>
+
+        <div class="scenario-stack">
+            <div class="scenario-card">
+                <div class="scenario-body">
+                    <div class="scenario-tag abc">Scenario 1</div>
+                    <p class="scenario-text">You are sitting on your couch after dinner. The urge to purge is at an 8. Your hand is already on your phone, checking how much time you have before your partner gets home. You notice the kitchen light is on.</p>
+                </div>
+                <div class="scenario-reveal" id="s0">
+                    <p><strong>S.</strong> Phone down. Feet flat on the floor. Hands on your thighs, not on the cushion, not near your mouth.</p>
+                    <p><strong>T.</strong> Stand up from the couch and move to a different room that does not have food or a bathroom in sight. The bedroom, the front step, outside.</p>
+                    <p><strong>O.</strong> Name three things in the new room. Name the emotion underneath the urge. Shame, panic, loneliness. Notice the urge intensity. Is it still an 8, or did moving drop it a little?</p>
+                    <p><strong>P.</strong> Text one person on your support list the single sentence you agreed on in session. Set a 20-minute timer. Stay where you are.</p>
+                </div>
+                <div class="reveal-btn-row">
+                    <button class="reveal-btn" onclick="revealScenario('s0', this)">Show one way STOP could go</button>
+                </div>
+            </div>
+
+            <div class="scenario-card">
+                <div class="scenario-body">
+                    <div class="scenario-tag please">Scenario 2</div>
+                    <p class="scenario-text">Your dietitian just added a snack to your plan. You are walking to the kitchen to get it. Halfway there, the urge to skip it rises to a 7. The thought is "I did not earn this. I will start fresh tomorrow."</p>
+                </div>
+                <div class="scenario-reveal" id="s1">
+                    <p><strong>S.</strong> Stop walking. Literal halt in the hallway. Hand on the wall if you need something to hold.</p>
+                    <p><strong>T.</strong> One long exhale. Step back out of the line toward the kitchen so you are not moving toward or away. You are paused.</p>
+                    <p><strong>O.</strong> The thought is a rule. The urge is anxiety about the increase. Your body is not asking to skip. The ED is asking to skip. Notice the difference between "I do not want to eat" and "the ED does not want me to eat."</p>
+                    <p><strong>P.</strong> Complete the snack as planned, at the pace on the plan. The urge to skip is information for your next session, not an instruction for right now.</p>
+                </div>
+                <div class="reveal-btn-row">
+                    <button class="reveal-btn" onclick="revealScenario('s1', this)">Show one way STOP could go</button>
+                </div>
+            </div>
+
+            <div class="scenario-card">
+                <div class="scenario-body">
+                    <div class="scenario-tag abc">Scenario 3</div>
+                    <p class="scenario-text">You walked past the full-length mirror in your bedroom. You have already turned around to check your stomach. The urge to keep checking is at a 9. It is 11:40 PM.</p>
+                </div>
+                <div class="scenario-reveal" id="s2">
+                    <p><strong>S.</strong> Freeze. Do not move closer to the mirror. Do not lift your shirt. Hands at your sides.</p>
+                    <p><strong>T.</strong> Physically turn your body so the mirror is behind you. Walk to the bed and sit down. If there is a cloth or towel nearby, cover the mirror before you sit.</p>
+                    <p><strong>O.</strong> The emotion is usually not curiosity. It is anxiety, self-loathing, or an earlier feeling you brought home with you. Name it. Notice the body wants to relieve the feeling through checking and that checking has never once relieved it.</p>
+                    <p><strong>P.</strong> Lights off, lie down, phone across the room. If the urge stays loud, one pre-agreed grounding practice. No negotiation with the mirror tonight.</p>
+                </div>
+                <div class="reveal-btn-row">
+                    <button class="reveal-btn" onclick="revealScenario('s2', this)">Show one way STOP could go</button>
+                </div>
+            </div>
+
+            <div class="scenario-card">
+                <div class="scenario-body">
+                    <div class="scenario-tag please">Scenario 4</div>
+                    <p class="scenario-text">You are lying in bed. You cannot sleep. The thought arrives: "I could get up and do a workout right now. It would make tomorrow easier." The urge rises to a 6. It is 2 AM.</p>
+                </div>
+                <div class="scenario-reveal" id="s3">
+                    <p><strong>S.</strong> Stay in the bed. Do not swing your legs over. Do not sit up to "just stretch."</p>
+                    <p><strong>T.</strong> One slow exhale. Hand on your chest. The step back is internal because the situation is internal.</p>
+                    <p><strong>O.</strong> The urge is dressed as logic. Underneath is the anxiety about tomorrow, the body-image spike from earlier, or the pattern of compensatory movement the treatment team has already named. The thought is not neutral information. It is the ED speaking in reasonable-mind voice.</p>
+                    <p><strong>P.</strong> The movement contract with your team is the binding document, not the 2 AM thought. Stay in bed. If you need to write the urge down, write it. Bring it to your next session.</p>
+                </div>
+                <div class="reveal-btn-row">
+                    <button class="reveal-btn" onclick="revealScenario('s3', this)">Show one way STOP could go</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="callout cool">
+            <div class="callout-label">Facilitator note</div>
+            <p>The reveals are one possible sequencing. The group's answers often contain better specifics. Invite members to name the exact room, object, or person they would use if this were their scenario.</p>
+        </div>
+
+        <div class="page-nav">
+            <button onclick="showPage(2, document.querySelectorAll('.nav button')[2])">&#8592; The four letters</button>
+            <button onclick="showPage(4, document.querySelectorAll('.nav button')[4])">Discussion &#8594;</button>
+        </div>
+    </div>
+
+    <!-- ======================== DISCUSSION ======================== -->
+    <div class="page">
+        <div class="section-label warm">Discussion</div>
+        <h2><span class="timing">10 to 12 min</span>Group process</h2>
+        <p class="body-text">Pick one or two. No one has to answer in order.</p>
+
+        <div class="questions">
+            <div class="question">
+                <div class="question-label">Ambivalence</div>
+                <div class="question-text">What makes stopping hardest. The urge itself, or the part of you that does not want the urge to stop?</div>
+                <div class="question-note">Expect long silence. This surfaces ambivalence about recovery, which is clinically central in ED work and often not named directly. Do not rescue the silence.</div>
+            </div>
+            <div class="question">
+                <div class="question-label">Embodiment</div>
+                <div class="question-text">Where does the pause live in your body, if it lives anywhere? If it had to live somewhere, where would you build it?</div>
+                <div class="question-note">Some members will say nowhere, which is clinically informative. The follow-up makes STOP embodied rather than cognitive.</div>
+            </div>
+            <div class="question">
+                <div class="question-label">Observation</div>
+                <div class="question-text">When you observe an ED urge without acting, what happens to it?</div>
+                <div class="question-note">Members often expect observation to kill the urge. It does not. Teaching point: observation changes the observer's relationship to the urge, not the urge itself. Watch for members who report the urge worsening. That is often dissociation lifting, not the skill failing.</div>
+            </div>
+            <div class="question">
+                <div class="question-label">Authorship</div>
+                <div class="question-text">Whose idea was it that you should have stopped?</div>
+                <div class="question-note">Surfaces shame versus values-driven recovery. A member who says "my mom's" or "the program's" is telling you something different from a member who says "mine, at 2 AM, when I could not sleep." Both are workable.</div>
+            </div>
+            <div class="question">
+                <div class="question-label">Distinction</div>
+                <div class="question-text">What is the difference between stopping and suppressing?</div>
+                <div class="question-note">Critical for ED populations where suppression is a lifelong pattern presenting as control. Stopping includes observe and proceed. Suppression skips them. If no one differentiates, ask which letter they skipped and what happened next.</div>
+            </div>
+        </div>
+
+        <div class="page-nav">
+            <button onclick="showPage(3, document.querySelectorAll('.nav button')[3])">&#8592; Practice</button>
+            <button onclick="showPage(5, document.querySelectorAll('.nav button')[5])">Closing &#8594;</button>
+        </div>
+    </div>
+
+    <!-- ======================== CLOSING ======================== -->
+    <div class="page">
+        <div class="section-label warm">This week</div>
+        <h2><span class="timing">5 to 8 min</span>Pick one</h2>
+        <p class="body-text">Choose a single place to practice STOP between now and next session. Pick the urge that shows up most, not the one that sounds most heroic.</p>
+
+        <div class="options-grid">
+            <div class="option" onclick="selectOption(this)">
+                <div class="option-label">Mealtime urge</div>
+                <div class="option-desc">Before, during, or after the meal most likely to spike an urge to restrict or purge.</div>
+            </div>
+            <div class="option" onclick="selectOption(this)">
+                <div class="option-label">Body-checking moment</div>
+                <div class="option-desc">The mirror, the scale, the pinch, the comparison. Pick the one that happens most.</div>
+            </div>
+            <div class="option" onclick="selectOption(this)">
+                <div class="option-label">Late-night urge</div>
+                <div class="option-desc">The hour when the ED speaks loudest. Binge, purge, compensatory workout, scroll.</div>
+            </div>
+            <div class="option" onclick="selectOption(this)">
+                <div class="option-label">Transition point</div>
+                <div class="option-desc">Walking home from work, opening the apartment door, the first ten minutes alone.</div>
+            </div>
+        </div>
+
+        <p class="body-text">Track one data point each time you use it. Urge intensity before S, and urge intensity after P. A number each. That is all.</p>
+
+        <hr class="divider">
+
+        <div class="section-label">Checkout</div>
+        <h2>One sentence</h2>
+        <p class="body-text">One takeaway from today and one concrete plan for where you will put STOP this week. Specific place, specific urge, specific hour.</p>
+
+        <div class="callout cool">
+            <div class="callout-label">Facilitator note</div>
+            <p>Push for specificity. "I'll use it when I'm stressed" is not a plan. "I'll use it tomorrow at 7 PM when I walk past the kitchen after work" is a plan.</p>
+        </div>
+
+        <div class="footer">
+            <strong>Crisis resources</strong><br>
+            988 Suicide &amp; Crisis Lifeline: call or text <strong>988</strong><br>
+            Crisis Text Line: text <strong>HOME</strong> to 741741
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function showPage(i, btn) {
+        document.querySelectorAll('.page').forEach((p, j) => p.classList.toggle('active', j === i));
+        document.querySelectorAll('.nav button').forEach((b, j) => b.classList.toggle('active', j === i));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleAcc(header) {
+        header.closest('.acc-item').classList.toggle('open');
+    }
+
+    function toggleLetter(card) {
+        const wasActive = card.classList.contains('active');
+        card.parentElement.querySelectorAll('.letter-card').forEach(c => c.classList.remove('active'));
+        if (!wasActive) card.classList.add('active');
+    }
+
+    function revealScenario(id, btn) {
+        document.getElementById(id).classList.add('show');
+        btn.classList.add('revealed');
+        btn.textContent = 'Response shown';
+        btn.disabled = true;
+    }
+
+    function selectOption(el) {
+        el.classList.toggle('selected');
+    }
+</script>
+
+</body>
+</html>
