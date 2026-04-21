@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "dev",
+      "name": "dbt-stop-skill",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["serve", "-l", "4327"],
       "port": 4327
